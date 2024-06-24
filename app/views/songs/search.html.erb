@@ -1,9 +1,15 @@
+<!-- app/views/songs/search.html.erb -->
 <h3>アーティスト名で検索</h3>
 <%= form_with url: search_songs_path, method: :get, local: true do |form| %>
-  <%= form.text_field :search %>
+  <%= form.text_field :search_artist %>
   <%= form.submit 'アーティスト名検索', name: nil %>
 <% end %>
 
+<h3>楽曲名で検索</h3>
+<%= form_with url: search_songs_path, method: :get, local: true do |form| %>
+  <%= form.text_field :search_track %>
+  <%= form.submit '楽曲名検索', name: nil %>
+<% end %>
 
 <h1>検索結果</h1>
 <div>
@@ -20,3 +26,17 @@
       </div>
     <% end %>
   <% end %>
+
+  <% if @searchtracks.present? %>
+    <% @searchtracks.each do |track| %>
+      <div>
+        <h3><%= track.name %></h3>
+        <p>アーティスト: <%= track.artists.map(&:name).join(", ") %></p>
+        <p>アルバム: <%= track.album.name %></p>
+        <% if track.album.images.any? %>
+          <%= image_tag(track.album.images.first["url"]) %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
