@@ -11,5 +11,5 @@ Rails.application.routes.draw do
       get "search"
     end
   end                                           
-  root 'posts#index'
+  root 'songs#search'
 end
