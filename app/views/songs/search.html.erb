@@ -12,16 +12,16 @@
 <% end %>
 
 <h1>検索結果</h1>
-<div>
+<div class="result-field">
   <% if @searchartists.present? %>
     <% @searchartists.each do |searchartist| %>
       <div>
         <h3><%= searchartist.name %></h3>
           <% if searchartist.images.any?%>
             <%image = searchartist.images[1]%>
-            <%= image_tag(image["url"])%>
+            <%= image_tag(image["url"],size:'200x200')%>
           <% else %>
-            <%= image_tag("nonono.png")%>
+            <%= image_tag("nonono.png",size:'200x200')%>
           <% end %>
       </div>
     <% end %>
@@ -34,7 +34,15 @@
         <p>アーティスト: <%= track.artists.map(&:name).join(", ") %></p>
         <p>アルバム: <%= track.album.name %></p>
         <% if track.album.images.any? %>
-          <%= image_tag(track.album.images.first["url"]) %>
+          <%= image_tag(track.album.images.first["url"],size:'200x200')%>
+        <% end %><br>
+        <% if track.preview_url.present? %>
+          <audio controls>
+            <source src="<%= track.preview_url %>" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        <% else %>
+          <p>プレビューは利用できません。</p>
         <% end %>
       </div>
     <% end %>
