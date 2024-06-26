@@ -1,2 +1,17 @@
-<h1>Songs#show</h1>
-<p>Find me in app/views/songs/show.html.erb</p>
+<h1><%= @track.name %></h1>
+<p>アーティスト: <%= @track.artists.map(&:name).join(", ") %></p>
+<p>アルバム: <%= @track.album.name %></p>
+<p>リリース日: <%= @track.album.release_date %></p>
+<p>トラック番号: <%= @track.track_number %></p>
+<p>長さ: <%= @track.duration_ms / 1000 %> 秒</p>
+<% if @track.album.images.any? %>
+  <%= image_tag(@track.album.images.first["url"]) %>
+<% end %>
+<% if @track.preview_url.present? %>
+  <audio controls>
+    <source src="<%= @track.preview_url %>" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+<% else %>
+  <p>プレビューは利用できません。</p>
+<% end %>

@@ -30,7 +30,7 @@
   <% if @searchtracks.present? %>
     <% @searchtracks.each do |track| %>
       <div>
-        <h3><%= track.name %></h3>
+        <h3><%= link_to track.name, song_path(track.id) %></h3>
         <p>アーティスト: <%= track.artists.map(&:name).join(", ") %></p>
         <p>アルバム: <%= track.album.name %></p>
         <% if track.album.images.any? %>
