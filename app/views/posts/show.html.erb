@@ -1,28 +1,17 @@
-<h1>posts#show</h1>
-<div class="post">
-    <p><%= @post.title %></p>
-    <p>
-        <% if @post.image.present? %>
-            <%= image_tag @post.image_url, size: '250x200'%>
-        <% else %>
-            <%= image_tag "nonono.png", size: '250x200' %>
-        <% end %>
-    </p>
-    <% if user_signed_in? %>
-        <% if current_user.already_liked?(@post) %>
-            <%= link_to post_like_path(id: @post.id, post_id: @post.id), method: :delete do %>
-                <i class="fas fa-heart"></i><%= @post.likes.count %>
-            <% end %>
-        <% else %>
-            <%= link_to post_likes_path(id: @post.id, post_id: @post.id), method: :post do %>
-                <i class="far fa-heart"></i><%= @post.likes.count %>
-            <% end %>
-        <% end %>
-    <% else %>
-        <i class="far fa-heart"></i><%= @post.likes.count %>
-    <% end %>
-    <p><%= @post.contents %></p>
-</div>
+<h1><%= @post.track_name %></h1>
+<p>アーティスト: <%= link_to @post.artist_name, artist_song_path(@post.artist_name) %></p>
+<p>アルバム: <%= link_to @post.album_name, album_song_path(@post.album_name) %></p>
+<% if @post.album_image.present? %>
+    <%= image_tag @post.album_image %>
+<% end %>
+<% if @post.preview_url.present? %>
+    <audio controls>
+        <source src="<%= @post.preview_url %>" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+<% end %>
+<p>コメント:<%= @post.contents %></p>
+
     <div class="comment-wrapper">
     <p>コメント一覧</p>
         <% @comments.each do |c| %>

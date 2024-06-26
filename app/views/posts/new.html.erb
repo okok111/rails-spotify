@@ -1,13 +1,33 @@
-<h1>posts#new</h1>
-<%= form_for @post do |f| %>
-<div class="field">
-    <%= f.label :title %>
-    <p><%= f.text_field :title, :size => 20 %></p>
-    <%= f.label :image %>
-    <p><%= f.file_field :image %></p>
-    <%= f.label :contents %>
-    <p><%= f.text_field :contents, :size => 20 %></p>
-</div>
-<%= f.submit "postする" %>
+<%= form_with(model: @post, local: true) do |form| %>
+  <% if @track %>
+    <div>
+      <%= form.label :artist_name, "アーティスト名" %>
+      <%= form.text_field :artist_name, value: @track.artists.first.name, readonly: true %>
+    </div>
+    <div>
+      <%= form.label :album_name, "アルバム名" %>
+      <%= form.text_field :album_name, value: @track.album.name, readonly: true %>
+    </div>
+    <div>
+      <%= form.label :track_name, "楽曲名" %>
+      <%= form.text_field :track_name, value: @track.name, readonly: true %>
+    </div>
+    <div>
+      <%= form.label :album_image, "ジャケット画像" %>
+      <%= form.text_field :album_image, value: @track.album.images.first["url"], readonly: true %>
+    </div>
+    <div>
+      <%= form.label :preview_url, "プレビューURL" %>
+      <%= form.text_field :preview_url, value: @track.preview_url, readonly: true %>
+    </div>
+  <% else %>
+    <h1>楽曲情報が取得できていません</h1>
+  <% end %>
+  <div>
+    <%= form.label :contents, "コメント" %>
+    <%= form.text_area :contents %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
 <% end %>
-<%= link_to "post一覧に戻る", posts_path %>
