@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     collection do
       get "search"
     end
+    member do
+      get 'album'
+      get 'artist'
+    end
   end                                           
   root 'songs#search'
 end

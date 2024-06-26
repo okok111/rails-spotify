@@ -1,0 +1,12 @@
+<h1><%= @album.name %></h1>
+<p>アーティスト: <%= raw(@album.artists.map { |artist| link_to artist.name, artist_song_path(artist.id) }.join(", ")) %></p>
+<p>リリース日: <%= @album.release_date %></p>
+<% if @album.images.any? %>
+  <%= image_tag(@album.images.first["url"]) %>
+<% end %>
+<h2>トラックリスト</h2>
+<ul>
+  <% @album.tracks.each do |track| %>
+    <li><%= link_to track.name, song_path(track.id) %></li>
+  <% end %>
+</ul>

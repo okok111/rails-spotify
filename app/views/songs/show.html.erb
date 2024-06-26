@@ -1,6 +1,6 @@
 <h1><%= @track.name %></h1>
-<p>アーティスト: <%= @track.artists.map(&:name).join(", ") %></p>
-<p>アルバム: <%= @track.album.name %></p>
+<p>アーティスト: <%= raw(@track.artists.map { |artist| link_to artist.name, artist_song_path(artist.id) }.join(", ")) %></p>
+<p>アルバム: <%= link_to @track.album.name, album_song_path(@track.album.id) %></p>
 <p>リリース日: <%= @track.album.release_date %></p>
 <p>トラック番号: <%= @track.track_number %></p>
 <p>長さ: <%= @track.duration_ms / 1000 %> 秒</p>
