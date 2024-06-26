@@ -1,11 +1,14 @@
 class PostsController < ApplicationController
   before_action :authenticate_user! , except: [:show, :index]
+  require 'rspotify'
+  RSpotify.authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_SECRET_ID'])
   def index
       @posts = Post.all
   end
 
   def new
       @post = Post.new
+      @track = RSpotify::Track.find(params[:track_id]) if params[:track_id]
   end
 
   def create
@@ -46,7 +49,7 @@ class PostsController < ApplicationController
 
   private
   def post_params
-      params.require(:post).permit(:title, :contents ,:image)
+      params.require(:post).permit(:title, :contents ,:image,:artist_name, :album_name, :track_name, :album_image, :preview_url, :artist_id, :album_id)
   end
 
 end

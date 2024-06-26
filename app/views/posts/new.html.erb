@@ -1,13 +1,44 @@
-<h1>posts#new</h1>
-<%= form_for @post do |f| %>
-<div class="field">
-    <%= f.label :title %>
-    <p><%= f.text_field :title, :size => 20 %></p>
-    <%= f.label :image %>
-    <p><%= f.file_field :image %></p>
-    <%= f.label :contents %>
-    <p><%= f.text_field :contents, :size => 20 %></p>
-</div>
-<%= f.submit "postする" %>
+<%= form_with(model: @post, local: true) do |form| %>
+  <% if @track %>
+    <div>
+      <p>アーティスト名:<%= @track.artists.first.name %></p>
+      <%= form.hidden_field :artist_name, value: @track.artists.first.name, readonly: true %>
+      <%= form.hidden_field :artist_id, value: @track.artists.first.id %>
+    </div>
+    <div>
+      <p>アルバム名:<%= @track.album.name %></p>
+      <%= form.hidden_field :album_name, value: @track.album.name, readonly: true %>
+      <%= form.hidden_field :album_id, value: @track.album.id %>
+    </div>
+    <div>
+      <p>楽曲名:<%= @track.name %></p>
+      <%= form.hidden_field :track_name, value: @track.name, readonly: true %>
+    </div>
+    <div>
+      <%= form.hidden_field :album_image, value: @track.album.images.first["url"], readonly: true %>
+      <% if @track.album.images.any? %>
+        <%= image_tag(@track.album.images.first["url"]) %>
+      <% end %>
+    </div>
+    <div>
+      <%= form.hidden_field :preview_url, value: @track.preview_url, readonly: true %>
+      <% if @track.preview_url.present? %>
+        <audio controls>
+          <source src="<%= @track.preview_url %>" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      <% else %>
+        <p>プレビューは利用できません。</p>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Optional: Fields for manual entry -->
+  <% end %>
+  <div>
+    <%= form.label :comment, "コメント" %>
+    <%= form.text_area :comment %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
 <% end %>
-<%= link_to "post一覧に戻る", posts_path %>
