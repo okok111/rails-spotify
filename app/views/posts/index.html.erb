@@ -1,36 +1,17 @@
-<h1>posts#index</h1>
-<%= link_to "新規投稿へ", new_post_path %>
-<div class="posts-container">
-    <% @posts.each do |t| %>
-        <div class="post">
-            <p><a href="/users/<%= t.user.id %>"><%= t.user.name %></a></p>
-            <p><%= t.title %></p>
-            <p>
-                <% if t.image.present? %>
-                    <%= image_tag t.image_url, size: '250x200'%>
-                <% else %>
-                    <%= image_tag "nonono.png", size: '250x200' %>
-                <% end %>
-            </p>
-            <% if user_signed_in? %>
-                <% if current_user.already_liked?(t) %>
-                    <%= link_to post_like_path(id: t.id, post_id: t.id), method: :delete do %>
-                        <i class="fas fa-heart fa-2x"></i><%= t.likes.count %>
-                    <% end %>
-                <% else %>
-                    <%= link_to post_likes_path(id: t.id, post_id: t.id), method: :post do %>
-                        <i class="far fa-heart fa-2x"></i><%= t.likes.count %>
-                    <% end %>
-                <% end %>
-            <% else %>
-                <i class="far fa-heart fa-2x"></i><%= t.likes.count %>
-            <% end %>
-            <p><%= t.contents %></p>
-            <%= link_to "詳細へ", post_path(t.id) %>
-            <% if user_signed_in? %>
-                <%= link_to "編集する", edit_post_path(t.id) %>
-                <%= link_to "削除する", post_path(t.id), method: :delete %>
-            <% end %>
-        </div>
+<% @posts.each do |post| %>
+  <div>
+    <h2><%= link_to post.track_name, post_path(post) %></h2>
+    <p>アーティスト: <%= link_to post.artist_name, artist_song_path(post.artist_id) %></p>
+    <p>アルバム: <%= link_to post.album_name, album_song_path(post.album_id) %></p>
+    <p>コメント: <%= post.contents %></p>
+    <% if post.album_image.present? %>
+      <%= image_tag post.album_image %>
     <% end %>
-</div>
+    <% if post.preview_url.present? %>
+      <audio controls>
+        <source src="<%= post.preview_url %>" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    <% end %>
+  </div>
+<% end %>

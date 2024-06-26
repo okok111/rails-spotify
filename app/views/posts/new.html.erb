@@ -1,31 +1,42 @@
 <%= form_with(model: @post, local: true) do |form| %>
   <% if @track %>
     <div>
-      <%= form.label :artist_name, "アーティスト名" %>
-      <%= form.text_field :artist_name, value: @track.artists.first.name, readonly: true %>
+      <p>アーティスト名:<%= @track.artists.first.name %></p>
+      <%= form.hidden_field :artist_name, value: @track.artists.first.name, readonly: true %>
+      <%= form.hidden_field :artist_id, value: @track.artists.first.id %>
     </div>
     <div>
-      <%= form.label :album_name, "アルバム名" %>
-      <%= form.text_field :album_name, value: @track.album.name, readonly: true %>
+      <p>アルバム名:<%= @track.album.name %></p>
+      <%= form.hidden_field :album_name, value: @track.album.name, readonly: true %>
+      <%= form.hidden_field :album_id, value: @track.album.id %>
     </div>
     <div>
-      <%= form.label :track_name, "楽曲名" %>
-      <%= form.text_field :track_name, value: @track.name, readonly: true %>
+      <p>楽曲名:<%= @track.name %></p>
+      <%= form.hidden_field :track_name, value: @track.name, readonly: true %>
     </div>
     <div>
-      <%= form.label :album_image, "ジャケット画像" %>
-      <%= form.text_field :album_image, value: @track.album.images.first["url"], readonly: true %>
+      <%= form.hidden_field :album_image, value: @track.album.images.first["url"], readonly: true %>
+      <% if @track.album.images.any? %>
+        <%= image_tag(@track.album.images.first["url"]) %>
+      <% end %>
     </div>
     <div>
-      <%= form.label :preview_url, "プレビューURL" %>
-      <%= form.text_field :preview_url, value: @track.preview_url, readonly: true %>
+      <%= form.hidden_field :preview_url, value: @track.preview_url, readonly: true %>
+      <% if @track.preview_url.present? %>
+        <audio controls>
+          <source src="<%= @track.preview_url %>" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      <% else %>
+        <p>プレビューは利用できません。</p>
+      <% end %>
     </div>
   <% else %>
-    <h1>楽曲情報が取得できていません</h1>
+    <!-- Optional: Fields for manual entry -->
   <% end %>
   <div>
-    <%= form.label :contents, "コメント" %>
-    <%= form.text_area :contents %>
+    <%= form.label :comment, "コメント" %>
+    <%= form.text_area :comment %>
   </div>
   <div>
     <%= form.submit %>

@@ -1,14 +1,14 @@
 <h1><%= @post.track_name %></h1>
-<p>アーティスト: <%= link_to @post.artist_name, artist_song_path(@post.artist_name) %></p>
-<p>アルバム: <%= link_to @post.album_name, album_song_path(@post.album_name) %></p>
+<p>アーティスト: <%= link_to @post.artist_name, artist_song_path(@post.artist_id) %></p>
+<p>アルバム: <%= link_to @post.album_name, album_song_path(@post.album_id) %></p>
 <% if @post.album_image.present? %>
-    <%= image_tag @post.album_image %>
+  <%= image_tag @post.album_image %>
 <% end %>
 <% if @post.preview_url.present? %>
-    <audio controls>
-        <source src="<%= @post.preview_url %>" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+  <audio controls>
+    <source src="<%= @post.preview_url %>" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 <% end %>
 <p>コメント:<%= @post.contents %></p>
 
