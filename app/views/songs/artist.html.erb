@@ -6,7 +6,7 @@
 <% end %>
 <h2>アルバム</h2>
 <ul>
-  <% @artist.albums.each do |album| %>
+  <% @artist.albums.each do |album| %>    
     <li><%= link_to album.name, album_song_path(album.id) %></li>
   <% end %>
 </ul>
